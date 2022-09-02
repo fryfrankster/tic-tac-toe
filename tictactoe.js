@@ -11,15 +11,17 @@
  * PLAYER
  * Turns for each player will alternate
  * 
- * INPUT
- * Await user input via terminal should be implemented after
+ * const grid = [
+    ["-", "-", "-"],
+    ["-", "-", "-"],
+    ["-", "-", "-"],
+   ];
  */
 
-
- const grid = [
-    ["-", "-", "-"],
-    ["-", "-", "-"],
-    ["-", "-", "-"],
+const grid = [
+    ["X", "O", "O"],
+    ["O", "O", "X"],
+    ["X", "O", "X"],
 ];
 
 const cross = "X";
@@ -27,31 +29,36 @@ const nought = "O";
 
 let playerTurn = cross;
 
-const isWin = (value) => {
-    /**
-     * IMPLEMENT THIS
-     * 
-     * Horizontal
-     * [[0, 0], [0, 1], [0, 2]]
-     * [[1, 0], [1, 1], [1, 2]]
-     * [[2, 0], [2, 1], [2, 2]]
-     * 
-     * Vertical
-     * [[0, 0], [1, 0], [2, 0]]
-     * [[0, 1], [1, 1], [2, 1]]
-     * [[0, 2], [1, 2], [2, 2]]
-     * 
-     * Diagonal
-     * [[0, 0], [1, 1], [2, 2]]
-     * [[2, 0], [1, 1], [0, 2]]
-     */
+const winConditions = [
+    [[0, 0], [0, 1], [0, 2]],
+    [[1, 0], [1, 1], [1, 2]],
+    [[2, 0], [2, 1], [2, 2]],
 
-    return
+    [[0, 0], [1, 0], [2, 0]],
+    [[0, 1], [1, 1], [2, 1]],
+    [[0, 2], [1, 2], [2, 2]],
+
+    [[0, 0], [1, 1], [2, 2]],
+    [[2, 0], [1, 1], [0, 2]]
+];
+
+const isWin = (value) => {
+    for (let condition = 0; condition < winConditions.length; condition++) {
+        const values = winConditions[condition].map((cell) => {
+            return grid[cell[0]][cell[1]] === value;
+        });
+        if (values.every(value => value === true)) return true;
+    }
+    return false;
 }
 
 const addToGrid = (value, xpos, ypos) => {
     if ((xpos >= 0 && xpos <= 2) && (ypos >= 0 && ypos <= 2)) {
         grid[xpos][ypos] = value;
+        if (isWin(playerTurn)) {
+            console.log(`Player ${player} has one the game`);
+            return;
+        }
         playerTurn = cross ? nought : cross;
     }
 };
@@ -64,11 +71,3 @@ const logGameStatus = () => {
     `);
     console.log(playerTurn);
 }
-
-const main = () => {
-    logGameStatus();
-    addToGrid(playerTurn, 2, 2);
-    logGameStatus();
-}
-
-main();
