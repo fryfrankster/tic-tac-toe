@@ -1,23 +1,3 @@
-/**
- * Draft implementation
- * 
- * WIN CONDITIONS
- * Win: Three consecutive X or O horizontally, vertically, and diagonally
- * Draw: The conditions above are not met
- * 
- * STRUCTURE
- * Tic Tac Toe is a played with a 3x3 grid. An array data structure would be ideal here (2D array)
- * 
- * PLAYER
- * Turns for each player will alternate
- * 
- * const grid = [
-    ["-", "-", "-"],
-    ["-", "-", "-"],
-    ["-", "-", "-"],
-   ];
- */
-
 const grid = [
     ["X", "O", "O"],
     ["O", "O", "X"],
@@ -47,7 +27,7 @@ const isWin = (value) => {
         const values = winConditions[condition].map((cell) => {
             return grid[cell[0]][cell[1]] === value;
         });
-        if (values.every(value => value === true)) return true;
+        //if (values.every(value => value === true)) return true;
     }
     return false;
 }
@@ -71,3 +51,29 @@ const logGameStatus = () => {
     `);
     console.log(playerTurn);
 }
+
+/**
+ * Apply styles for grid outline
+ * Look into mouse-events and event handlers (mouse hovering over divs)
+ */
+
+const initialise = () => {
+    const grid = document.createElement("div");
+    const id = document.createAttribute("id");
+    id.value = "grid";
+    grid.style.border = "1px solid black";
+
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("div");
+        const id = document.createAttribute("id");
+        id.value = `cell-${i}`;
+        const content = document.createTextNode(`cell-${i}`);
+        cell.appendChild(content);
+        cell.style.border = "1px solid black";
+        grid.appendChild(cell);
+    }
+    document.body.appendChild(grid);
+
+}
+
+document.body.onload = initialise;
