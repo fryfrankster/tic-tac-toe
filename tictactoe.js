@@ -8,51 +8,7 @@ const cross = "X";
 const nought = "O";
 
 let playerTurn = cross;
-
- /** Command line implementation of functions
-  * const winConditions = [
-    [[0, 0], [0, 1], [0, 2]],
-    [[1, 0], [1, 1], [1, 2]],
-    [[2, 0], [2, 1], [2, 2]],
-
-    [[0, 0], [1, 0], [2, 0]],
-    [[0, 1], [1, 1], [2, 1]],
-    [[0, 2], [1, 2], [2, 2]],
-
-    [[0, 0], [1, 1], [2, 2]],
-    [[2, 0], [1, 1], [0, 2]]
-];
-
-const isWin = (value) => {
-    for (let condition = 0; condition < winConditions.length; condition++) {
-        const values = winConditions[condition].map((cell) => {
-            return grid[cell[0]][cell[1]] === value;
-        });
-        if (values.every(value => value === true)) return true;
-    }
-    return false;
-}
-
-const addToGrid = (value, xpos, ypos) => {
-    if ((xpos >= 0 && xpos <= 2) && (ypos >= 0 && ypos <= 2)) {
-        grid[xpos][ypos] = value;
-        if (isWin(playerTurn)) {
-            console.log(`Player ${player} has one the game`);
-            return;
-        }
-        playerTurn = cross ? nought : cross;
-    }
-};
-
-const logGameStatus = () => {
-    console.log(`
-    ${grid[0][0]} ${grid[0][1]} ${grid[0][2]}\n
-    ${grid[1][0]} ${grid[1][1]} ${grid[1][2]}\n
-    ${grid[2][0]} ${grid[2][1]} ${grid[2][2]}
-    `);
-    console.log(playerTurn);
-}
-  */
+let isFinished = false;
 
 const winConditions = [
     [0, 1, 2],
@@ -79,16 +35,21 @@ const resetGrid = () => {
     for (let i = 0; i < 9; i++) {
         document.getElementById(`cell-${i}`).innerText = "";
     }
+    document.getElementById("winnerText").innerText = "";
+    isFinished = false;
 }
 
 const updateCellValue = (e) => {
-    if (document.getElementById(`${e.target.id}`).innerText == "") {
-        document.getElementById(`${e.target.id}`).innerText = playerTurn;
-        if (isWin(playerTurn)) {
-            console.log(`Player ${playerTurn} has one the game`);
-            return;
+    if (!isFinished) {
+        if (document.getElementById(`${e.target.id}`).innerText == "") {
+            document.getElementById(`${e.target.id}`).innerText = playerTurn;
+            if (isWin(playerTurn)) {
+                document.getElementById("winnerText").innerText = `Player ${playerTurn} has won the game`;
+                isFinished = true;
+                return;
+            }
+            playerTurn = playerTurn === cross ? nought : cross;
         }
-        playerTurn = playerTurn === cross ? nought : cross;
     }
 }
 
@@ -115,6 +76,12 @@ const initialise = () => {
         grid.appendChild(cell);
     }
 
+    const winnerText = document.createElement("h3");
+    const winnerTextId = document.createAttribute("id");
+    winnerTextId.value = "winnerText";
+    winnerText.setAttributeNode(winnerTextId);
+    winnerText.innerText = "";
+
     const resetButton = document.createElement("button");
     const buttonId = document.createAttribute("id");
     buttonId.value = "grid";
@@ -123,6 +90,7 @@ const initialise = () => {
     resetButton.addEventListener("click", resetGrid);
 
     document.body.appendChild(grid);
+    document.body.appendChild(winnerText);
     document.body.appendChild(resetButton);
 }
 
