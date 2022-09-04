@@ -53,8 +53,10 @@ const logGameStatus = () => {
 }
 
 const updateCellValue = (e) => {
-    document.getElementById(`${e.target.id}`).innerText = playerTurn;
-    playerTurn = playerTurn === cross ? nought : cross;
+    if (document.getElementById(`${e.target.id}`).innerText == "") {
+        document.getElementById(`${e.target.id}`).innerText = playerTurn;
+        playerTurn = playerTurn === cross ? nought : cross;
+    }
 }
 
 /**
@@ -77,7 +79,7 @@ const initialise = () => {
         const id = document.createAttribute("id");
         id.value = `cell-${i}`;
         cell.setAttributeNode(id);
-        const content = document.createTextNode(`${i}`);
+        const content = document.createTextNode("");
         cell.appendChild(content);
         cell.style.border = "1px solid black";
 
