@@ -9,7 +9,8 @@ const nought = "O";
 
 let playerTurn = cross;
 
-const winConditions = [
+ /** Command line implementation of functions
+  * const winConditions = [
     [[0, 0], [0, 1], [0, 2]],
     [[1, 0], [1, 1], [1, 2]],
     [[2, 0], [2, 1], [2, 2]],
@@ -51,6 +52,28 @@ const logGameStatus = () => {
     `);
     console.log(playerTurn);
 }
+  */
+
+const winConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+]
+
+const isWin = (value) => {
+    for (let i = 0; i < winConditions.length; i++) {
+        const values = winConditions[i].map((cell) => {
+            return document.getElementById(`cell-${cell}`).innerText === value;
+        });
+        if (values.every(value => value === true)) return true;
+    }
+    return false;
+}
 
 const resetGrid = () => {
     for (let i = 0; i < 9; i++) {
@@ -61,14 +84,13 @@ const resetGrid = () => {
 const updateCellValue = (e) => {
     if (document.getElementById(`${e.target.id}`).innerText == "") {
         document.getElementById(`${e.target.id}`).innerText = playerTurn;
+        if (isWin(playerTurn)) {
+            console.log(`Player ${playerTurn} has one the game`);
+            return;
+        }
         playerTurn = playerTurn === cross ? nought : cross;
     }
 }
-
-/**
- * Apply styles for grid outline
- * Look into mouse-events and event handlers (mouse hovering over divs)
- */
 
 const initialise = () => {
     const grid = document.createElement("div");
