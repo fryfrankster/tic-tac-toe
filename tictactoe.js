@@ -52,6 +52,12 @@ const logGameStatus = () => {
     console.log(playerTurn);
 }
 
+const resetGrid = () => {
+    for (let i = 0; i < 9; i++) {
+        document.getElementById(`cell-${i}`).innerText = "";
+    }
+}
+
 const updateCellValue = (e) => {
     if (document.getElementById(`${e.target.id}`).innerText == "") {
         document.getElementById(`${e.target.id}`).innerText = playerTurn;
@@ -66,9 +72,9 @@ const updateCellValue = (e) => {
 
 const initialise = () => {
     const grid = document.createElement("div");
-    const id = document.createAttribute("class");
-    id.value = "grid";
-    grid.setAttributeNode(id);
+    const gridId = document.createAttribute("class");
+    gridId.value = "grid";
+    grid.setAttributeNode(gridId);
     grid.style.border = "1px solid black";
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(3, 1fr)";
@@ -86,8 +92,16 @@ const initialise = () => {
         cell.addEventListener("click", updateCellValue);
         grid.appendChild(cell);
     }
-    document.body.appendChild(grid);
 
+    const resetButton = document.createElement("button");
+    const buttonId = document.createAttribute("id");
+    buttonId.value = "grid";
+    resetButton.setAttributeNode(buttonId);
+    resetButton.innerText = "Reset";
+    resetButton.addEventListener("click", resetGrid);
+
+    document.body.appendChild(grid);
+    document.body.appendChild(resetButton);
 }
 
 document.body.onload = initialise;
