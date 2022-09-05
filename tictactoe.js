@@ -1,9 +1,3 @@
-const grid = [
-    ["X", "O", "O"],
-    ["O", "O", "X"],
-    ["X", "O", "X"],
-];
-
 const cross = "X";
 const nought = "O";
 
@@ -54,44 +48,22 @@ const updateCellValue = (e) => {
 }
 
 const initialise = () => {
-    const grid = document.createElement("div");
-    const gridId = document.createAttribute("class");
-    gridId.value = "grid";
-    grid.setAttributeNode(gridId);
-    grid.style.border = "1px solid black";
-    grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
-    grid.style.gridAutoRows = "minmax(100px, auto)";
+    const grid = document.getElementById("grid");
 
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement("div");
-        const id = document.createAttribute("id");
-        id.value = `cell-${i}`;
-        cell.setAttributeNode(id);
+        const cellId = document.createAttribute("id");
+        cellId.value = `cell-${i}`;
+        cell.setAttributeNode(cellId);
+        const cellClass = document.createAttribute("class");
+        cellClass.value = "cell";
+        cell.setAttributeNode(cellClass);
+
         const content = document.createTextNode("");
         cell.appendChild(content);
-        cell.style.border = "1px solid black";
-
         cell.addEventListener("click", updateCellValue);
-        grid.appendChild(cell);
+        grid.append(cell);
     }
-
-    const winnerText = document.createElement("h3");
-    const winnerTextId = document.createAttribute("id");
-    winnerTextId.value = "winnerText";
-    winnerText.setAttributeNode(winnerTextId);
-    winnerText.innerText = "";
-
-    const resetButton = document.createElement("button");
-    const buttonId = document.createAttribute("id");
-    buttonId.value = "grid";
-    resetButton.setAttributeNode(buttonId);
-    resetButton.innerText = "Reset";
-    resetButton.addEventListener("click", resetGrid);
-
-    document.body.appendChild(grid);
-    document.body.appendChild(winnerText);
-    document.body.appendChild(resetButton);
 }
 
 document.body.onload = initialise;
