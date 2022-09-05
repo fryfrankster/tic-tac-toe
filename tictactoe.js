@@ -25,6 +25,13 @@ const isWin = (value) => {
     return false;
 }
 
+const isGridFull = () => {
+    for (let i = 0; i < 9; i++) {
+        if (document.getElementById(`cell-${i}`).innerText == "") return false;
+    }
+    return true;
+} 
+
 const resetGrid = () => {
     for (let i = 0; i < 9; i++) {
         document.getElementById(`cell-${i}`).innerText = "";
@@ -39,6 +46,10 @@ const updateCellValue = (e) => {
             document.getElementById(`${e.target.id}`).innerText = playerTurn;
             if (isWin(playerTurn)) {
                 document.getElementById("winnerText").innerText = `Player ${playerTurn} has won the game`;
+                isFinished = true;
+                return;
+            } else if (isGridFull()) {
+                document.getElementById("winnerText").innerText = `Draw`;
                 isFinished = true;
                 return;
             }
