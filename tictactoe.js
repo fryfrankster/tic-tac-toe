@@ -44,6 +44,7 @@ const updateCellValue = (e) => {
     if (!isFinished) {
         if (document.getElementById(`${e.target.id}`).innerText == "") {
             document.getElementById(`${e.target.id}`).innerText = playerTurn;
+            playTapSound();
             if (isWin(playerTurn)) {
                 document.getElementById("winnerText").innerText = `Player ${playerTurn} has won the game`;
                 isFinished = true;
@@ -56,6 +57,11 @@ const updateCellValue = (e) => {
             playerTurn = playerTurn === cross ? nought : cross;
         }
     }
+}
+
+const playTapSound = () => {
+    const audio = new Audio('tap.wav');
+    audio.play();
 }
 
 const initialise = () => {
