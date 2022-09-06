@@ -20,7 +20,14 @@ const isWin = (value) => {
         const values = winConditions[i].map((cell) => {
             return document.getElementById(`cell-${cell}`).innerText === value;
         });
-        if (values.every(value => value === true)) return true;
+        if (values.every(value => value === true)) {
+            for (let j = 0; j < winConditions[i].length; j++) {
+                const cell = document.getElementById(`cell-${winConditions[i][j]}`);
+                cell.style.backgroundColor = "rgb(141, 153, 174)";
+                cell.style.color = "rgb(237, 242, 244)";
+            }
+            return true
+        };
     }
     return false;
 }
@@ -34,7 +41,10 @@ const isGridFull = () => {
 
 const resetGrid = () => {
     for (let i = 0; i < 9; i++) {
-        document.getElementById(`cell-${i}`).innerText = "";
+        const cell = document.getElementById(`cell-${i}`);
+        cell.innerText = "";
+        cell.style.color = "rgb(141, 153, 174)";
+        cell.style.backgroundColor = "rgb(237, 242, 244)";
     }
     document.getElementById("winnerText").innerText = "";
     isFinished = false;
