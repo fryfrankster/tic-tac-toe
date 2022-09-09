@@ -41,8 +41,7 @@ const resetGrid = () => {
     for (let i = 0; i < 9; i++) {
         const cell = document.getElementById(`cell-${i}`);
         cell.innerText = "";
-        cell.style.color = "rgb(141, 153, 174)";
-        cell.style.backgroundColor = "rgb(237, 242, 244)";
+        cell.classList.remove("win");
     }
     document.getElementById("winnerText").innerText = "";
     isFinished = false;
