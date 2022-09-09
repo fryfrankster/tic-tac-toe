@@ -22,9 +22,7 @@ const isWin = (value) => {
         });
         if (values.every(value => value === true)) {
             for (let j = 0; j < winConditions[i].length; j++) {
-                const cell = document.getElementById(`cell-${winConditions[i][j]}`);
-                cell.style.backgroundColor = "rgb(141, 153, 174)";
-                cell.style.color = "rgb(237, 242, 244)";
+                document.getElementById(`cell-${winConditions[i][j]}`).classList.add("win");
             }
             return true
         };
